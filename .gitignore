@@ -1,8 +1,11 @@
-# Folders
-.vscode/
-dist/
-node_modules/
-.cache
+# System and IDE files
+Thumbs.db
+.DS_Store
+.vscode
 
-# Files
-.DS_STORE
+
+# Vendors
+node_modules/
+
+# Build
+dist
