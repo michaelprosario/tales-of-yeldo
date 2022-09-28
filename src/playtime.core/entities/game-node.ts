@@ -1,3 +1,5 @@
+import { GameMessage } from "../value-objects/game-message";
+
 export abstract class GameNode
 {
   children: Array<GameNode> = [];
@@ -7,4 +9,5 @@ export abstract class GameNode
   startTime: number = 0;
   abstract start(): any;
   abstract update(): any;
+  abstract receiveMessage(message: GameMessage): any;
 }
