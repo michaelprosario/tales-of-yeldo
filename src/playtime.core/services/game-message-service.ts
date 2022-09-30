@@ -1,10 +1,3 @@
-/*
-GameMessageService
-publishMessage(gameMessage: GameMessage)
-
-
-*/
-
 import { GameNode } from "../entities/game-node";
 import { AppResponse, ResponseCode } from "../responses/app-response";
 import { GameMessageValidator } from "../validators/game-message-validator";
