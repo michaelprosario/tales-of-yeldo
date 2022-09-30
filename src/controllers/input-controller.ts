@@ -11,6 +11,7 @@ export class InputController {
     private _keySpace: Phaser.Input.Keyboard.Key;
     private _keyX: Phaser.Input.Keyboard.Key;
     messageService: GameMessageService;
+    keyIsUp: boolean = true;
 
     private _scene: Phaser.Scene;
 
@@ -28,23 +29,33 @@ export class InputController {
     }
 
     update(): void {
-        if (this._keyUp?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.UP);
-        if (this._keyUp?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.UP);
-        if (this._keyDown?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.DOWN);
-        if (this._keyDown?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.DOWN);
-        if (this._keyLeft?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.LEFT);
-        if (this._keyLeft?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.LEFT);
-        if (this._keyRight?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        if (this._keyRight?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        if (this._keyDown?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.DOWN);
-        if (this._keyDown?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.DOWN);
-        if (this._keySpace?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.SPACE);
-        if (this._keySpace?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.SPACE);
-        if (this._keyX?.isDown) this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.X);
-        if (this._keyX?.isUp) this.sendKeyMessage(MessageTypes.KeyUp, Phaser.Input.Keyboard.KeyCodes.X);
+        
+        this.keyIsUp = true;
+        if (this._keyUp?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.UP);
+        if (this._keyDown?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.DOWN);
+        if (this._keyLeft?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.LEFT);
+        if (this._keyRight?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        if (this._keyDown?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.DOWN);
+        if (this._keySpace?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.SPACE);
+        if (this._keyX?.isDown) 
+            this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.X);
+
+        if(this.keyIsUp)
+            this.sendKeyMessage(MessageTypes.KeyUp, 0);
     }
 
     private sendKeyMessage(messageType: number, keyCode: number) {
+        if(messageType === MessageTypes.KeyDown)
+        {
+            this.keyIsUp = false;
+        }
+
         let gameMessage = new GameMessage();
         gameMessage.messageType = messageType;
         gameMessage.content = keyCode;
@@ -52,5 +63,6 @@ export class InputController {
         gameMessage.topic = MessageTopics.UserInput;
         gameMessage.timeStamp = new Date().getTime();
         this.messageService.publish(gameMessage);
+
     }
 }

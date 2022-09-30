@@ -12,10 +12,12 @@ export class GameMessageSubscription{
 export class GameMessageService
 {
     subscriptions: Array<GameMessageSubscription>;
+    messages: Array<GameMessage>;
     messageValidator: GameMessageValidator = new GameMessageValidator();
     constructor()
     {
         this.subscriptions = [];
+        this.messages = [];
     }
 
     publish(message: GameMessage)
@@ -27,6 +29,26 @@ export class GameMessageService
             let errorResponse = new AppResponse();
             errorResponse.code = ResponseCode.BadRequest;
             errorResponse.validationErrors = validationResults.getFailureMessages();
+        }
+
+        this.messages.push(message);
+    }
+
+    update()
+    {
+        let gameMessage: GameMessage | undefined = undefined;
+
+        if(this.messages.length > 0){
+            gameMessage = this.messages.pop();
+        }
+        
+        if(gameMessage){
+            for(let subscriber of this.subscriptions)
+            {
+                if(subscriber.topicId === gameMessage.topic){
+                    subscriber.node.receiveMessage(gameMessage);
+                }
+            }    
         }
     }
 
