@@ -19,9 +19,12 @@ export class BoxNode extends GameNode
     {
         super();
 
-        this.boxSprite = scene.add.sprite(100, 100, 'box1');
-        this.boxSprite.x = 100;
-        this.boxSprite.y = 100;
+        let startX = 500 * Math.random();
+        let startY = 500 * Math.random();
+
+        this.boxSprite = scene.add.sprite(startX, startY, 'box1');
+        this.boxSprite.x = startX;
+        this.boxSprite.y = startY;
         this.messageService.subscribe(this, MessageTopics.UserInput);
     }
     

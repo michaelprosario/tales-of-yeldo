@@ -6,6 +6,8 @@ import { GameMessageService } from '../playtime.core/services/game-message-servi
 export default class Demo extends Phaser.Scene {
 
   boxNode: BoxNode | undefined;
+  boxNode2: BoxNode | undefined;
+
   gameMessageService: GameMessageService | undefined;
   inputController: InputController | undefined;
 
@@ -21,11 +23,15 @@ export default class Demo extends Phaser.Scene {
     this.gameMessageService = new GameMessageService();
     this.inputController = new InputController(this, this.gameMessageService);
     this.boxNode = new BoxNode(this, this.gameMessageService);
+    this.boxNode2 = new BoxNode(this, this.gameMessageService);
+
   }
 
   update(time: number, delta: number): void {
     this.inputController?.update();
     this.gameMessageService?.update();
     this.boxNode?.update();
+    this.boxNode2?.update();
+
   }
 }
